@@ -1,2 +1,2 @@
 # Cyclone_PhysicsEGN
-personal project to studying Physics Engine
+personal project to study Physics Engine
