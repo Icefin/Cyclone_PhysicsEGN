@@ -143,6 +143,10 @@
     <ClInclude Include="precision.h" />
     <ClInclude Include="particle.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="particle.cpp" />
+    <ClCompile Include="Test_main.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

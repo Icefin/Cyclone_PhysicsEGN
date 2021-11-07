@@ -11,6 +11,57 @@ namespace cyclone
 		real x;
 		real y;
 		real z;
+		#pragma region operatorDef
+		void operator *=(const real value)
+		{
+			x *= value;
+			y *= value;
+			z *= value;
+		}
+		Vector3 operator *(const real value) const
+		{
+			return Vector3(x * value, y * value, z * value);
+		}
+
+		void operator +=(const Vector3& v)
+		{
+			x += v.x;
+			y += v.y;
+			z += v.z;
+		}
+		Vector3 operator +(const Vector3& v) const
+		{
+			return Vector3(x + v.x, y + v.y, z + v.z);
+		}
+
+		void operator -=(const real value)
+		{
+			x -= value;
+			y -= value;
+			z -= value;
+		}
+		Vector3 operator -(const Vector3& v) const
+		{
+			return Vector3(x - v.x, y - v.y, z - v.z);
+		}
+
+		//DotProduct operator
+		real operator *(const Vector3& v) const
+		{
+			return x * v.x + y * v.y + z * v.z;
+		}
+		//CrossProduct operator
+		void operator %=(const Vector3& v)
+		{
+			*this = vectorProduct(v);
+		}
+		Vector3 operator %(const Vector3& v) const
+		{
+			return Vector3(y * v.z - z * v.y,
+				z * v.x - x * v.z,
+				x * v.y - y * v.x);
+		}
+#pragma endregion
 
 	private :
 		//4øˆµÂ ∏¬√„¿ª ¿ß«ÿ µ°∫Ÿ¿”
@@ -19,6 +70,11 @@ namespace cyclone
 	public :
 		Vector3() : x(0), y(0), z(0) {}
 		Vector3(const real x, const real y, const real z) : x(x), y(y), z(z) {}
+
+		void clear()
+		{
+			delete this;
+		}
 
 		void invert()
 		{
@@ -72,57 +128,6 @@ namespace cyclone
 			return Vector3(y * vector.z - z * vector.y,
 				z * vector.x - x * vector.z,
 				x * vector.y - y * vector.x);
-		}
-
-	private :
-		void operator *=(const real value)
-		{
-			x *= value;
-			y *= value;
-			z *= value;
-		}
-		Vector3 operator *(const real value) const
-		{
-			return Vector3(x * value, y * value, z * value);
-		}
-
-		void operator +=(const Vector3& v)
-		{
-			x += v.x;
-			y += v.y;
-			z += v.z;
-		}
-		Vector3 operator +(const Vector3& v) const
-		{
-			return Vector3(x + v.x, y + v.y, z + v.z);
-		}
-
-		void operator -=(const real value)
-		{
-			x -= value;
-			y -= value;
-			z -= value;
-		}
-		Vector3 operator -(const Vector3& v) const
-		{
-			return Vector3(x - v.x, y - v.y, z - v.z);
-		}
-
-		//DotProduct operator
-		real operator *(const Vector3& v) const
-		{
-			return x * v.x + y * v.y + z * v.z;
-		}
-		//CrossProduct operator
-		void operator %=(const Vector3& v)
-		{
-			*this = vectorProduct(v);
-		}
-		Vector3 operator %(const Vector3& v) const
-		{
-			return Vector3(y * v.z - z * v.y,
-				z * v.x - x * v.z,
-				x * v.y - y * v.x);
 		}
 	};
 }
