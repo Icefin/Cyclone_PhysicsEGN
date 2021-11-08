@@ -140,11 +140,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="core.h" />
+    <ClInclude Include="pfgen.h" />
     <ClInclude Include="precision.h" />
     <ClInclude Include="particle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="particle.cpp" />
+    <ClCompile Include="pfgen.cpp" />
     <ClCompile Include="Test_main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

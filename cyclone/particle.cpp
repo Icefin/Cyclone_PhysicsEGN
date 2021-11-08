@@ -3,9 +3,18 @@
 
 using namespace cyclone;
 
+#pragma region Get/Set
 Vector3 Particle::getPosition() const
 {
 	return this->position;
+}
+Vector3 Particle::getVelocity() const
+{
+	return this->velocity;
+}
+real Particle::getMass() const
+{
+	return 1 / this->inverseMass;
 }
 
 void Particle::setPosition(real x, real y, real z)
@@ -30,6 +39,9 @@ void Particle::setMass(real mass)
 	this->inverseMass = 1 / mass;
 }
 
+#pragma endregion
+
+
 void Particle::integrate(real duration)
 {
 	if (inverseMass <= 0.0f) return;
@@ -41,13 +53,30 @@ void Particle::integrate(real duration)
 	position.addScaledVector(velocity, duration); // p = p + duration * p'
 
 	//가속도로부터 속도를 업데이트한다.
-	Vector3 resultingAcc = acceleration;	//이거 필요한건가??
+	Vector3 resultingAcc = acceleration;
+	resultingAcc.addScaledVector(forceAccum, inverseMass);	//a = a + F/m
 	velocity.addScaledVector(resultingAcc, duration);	//p' = p' + duration * p"
 
 	//드래그를 적용한다.
 	velocity *= real_pow(damping, duration);
 
 	//힘 항목을 지운다.
-	clearAccumulator();		//후에 추가 필요.
+	clearAccumulator();
 }
 
+void Particle::addForce(const Vector3& force)
+{
+	forceAccum += force;
+}
+
+bool Particle::hasFiniteMass()
+{
+	if (this->inverseMass == 0.0f) return false;
+	
+	return true;
+}
+
+void Particle::clearAccumulator()
+{
+	forceAccum.clear();
+}

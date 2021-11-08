@@ -12,17 +12,23 @@ namespace cyclone
 			real damping;
 			real inverseMass;
 
+			Vector3 forceAccum;
+
 		public :
 			Vector3 getPosition() const;
-			
+			Vector3 getVelocity() const;
+			real getMass() const;
+
 			void setPosition(real x, real y, real z);
 			void setVelocity(real x, real y, real z);
 			void setAcceleration(real x, real y, real z);
 			void setDamping(real damping);
 			void setMass(real mass);
 
-			void integrate(real duration);
-			
+			bool hasFiniteMass();
 
+			void integrate(real duration);
+			void addForce(const Vector3& force);
+			void clearAccumulator();
 	};
 }
