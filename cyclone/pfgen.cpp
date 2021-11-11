@@ -64,7 +64,6 @@ void ParticleDrag::updateForce(Particle* particle, real duration)
 #pragma endregion
 
 #pragma region ParticleUpLift
-
 ParticleUpLift::ParticleUpLift(const Vector3& position, Vector3& force, real distance)
 {
 	this->position = position;
@@ -82,11 +81,9 @@ void ParticleUpLift::updateForce(Particle* particle, real duration)
 		particle->addForce(force);
 	}
 }
-
 #pragma endregion
 
 #pragma region ParticleSink
-
 ParticleSink::ParticleSink(const Vector3& position, real power)
 {
 	this->position = position;
@@ -109,7 +106,6 @@ void ParticleSink::updateForce(Particle* particle, real duration)
 #pragma endregion
 
 #pragma region ParticleSpring
-
 ParticleSpring::ParticleSpring(Particle* other, real springConstant, real restLength)
 {
 	this->other = other;
@@ -131,11 +127,9 @@ void ParticleSpring::updateForce(Particle* particle, real duration)
 	force *= -magnitude;		//f_spring = -k(l' - l) by Hooke's law
 	particle->addForce(force);
 }
-
 #pragma endregion
 
 #pragma region ParticleAnchoredSpring
-
 ParticleAnchoredSpring::ParticleAnchoredSpring(Vector3* anchor, real springConstant, real restLength)
 {
 	this->anchor = anchor;
@@ -145,10 +139,66 @@ ParticleAnchoredSpring::ParticleAnchoredSpring(Vector3* anchor, real springConst
 
 void ParticleAnchoredSpring::updateForce(Particle* particle, real duration)
 {
-	
-}
+	Vector3 force = particle->getPosition() - *anchor;	//anchor to particle dir
 
+	real magnitude = force.magnitude();
+	magnitude = (restLength - magnitude) * springConstant;	//if mag > rest : dir to anchor
+
+	force.normalize();
+	force *= magnitude;
+	particle->addForce(force);
+
+}
 #pragma endregion
 
+#pragma region ParticleBungee
+ParticleBungee::ParticleBungee(Particle* other, real springConstant, real restLength)
+{
+	this->other = other;
+	this->springConstant = springConstant;
+	this->restLength = restLength;
+}
+void ParticleBungee::updateForce(Particle* particle, real duration)
+{
+	Vector3 force = particle->getPosition() - other->getPosition(); //other to particle dir
+
+	real magnitude = force.magnitude();
+	if (magnitude <= restLength) return;	//mag < rest이면 힘x
+	
+	magnitude = springConstant * (magnitude - restLength);
+	force.normalize();
+	force *= magnitude;
+	particle->addForce(force);
+}
+#pragma endregion
+
+#pragma region ParticleBuoyancy
+ParticleBuoyancy::ParticleBuoyancy(real maxDepth, real volume, real waterHeight, real liquidDensity = 1000.0f)
+{
+	this->maxDepth = maxDepth;
+	this->volume = volume;
+	this->waterHeight = waterHeight;
+	this->liquidDensity = liquidDensity;
+}
+void ParticleBuoyancy::updateForce(Particle* particle, real duration)
+{
+	real depth = particle->getPosition().y;
+
+	if (depth >= waterHeight + maxDepth) return;	//물 밖이라면 힘x
+
+	Vector3 force(0, 0, 0);
+
+	//물체가 물 속에 완전히 잠긴 경우
+	if (depth <= waterHeight - maxDepth)
+	{
+		force.y = liquidDensity * volume;
+		particle->addForce(force);
+		return;
+	}
+
+	force.y = liquidDensity * volume * (depth - maxDepth - waterHeight) / (2 * maxDepth);	//volume_ratio = (y - y_w - y_f / 2y_f)
+	particle->addForce(force);
+}
+#pragma endregion
 
 

@@ -96,4 +96,27 @@ namespace cyclone
 			ParticleAnchoredSpring(Vector3* anchor, real springConstant, real restLength);
 			virtual void updateForce(Particle* particle, real duration);
 	};
+	//탄성 고무줄
+	class ParticleBungee : public ParticleForceGenerator
+	{
+		Particle* other;
+		real springConstant;
+		real restLength;
+
+		public :
+			ParticleBungee(Particle* other, real springConstant, real restLength);
+			virtual void updateForce(Particle* particle, real duration);
+	};
+	//부력 : buoyancy = rho_liquid * volume * volume_ratio
+	class ParticleBuoyancy : public ParticleForceGenerator
+	{
+		real maxDepth;
+		real volume;
+		real waterHeight;
+		real liquidDensity;	
+
+		public :
+			ParticleBuoyancy(real maxDepth, real volume, real waterHeight, real liquidDensity = 1000.0f);
+			virtual void updateForce(Particle* particle, real duration);
+	};
 }
