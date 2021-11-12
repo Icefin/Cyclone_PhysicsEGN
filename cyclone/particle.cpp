@@ -16,6 +16,10 @@ real Particle::getMass() const
 {
 	return 1 / this->inverseMass;
 }
+real Particle::getInverseMass() const
+{
+	return inverseMass;
+}
 
 void Particle::setPosition(real x, real y, real z)
 {
@@ -24,6 +28,10 @@ void Particle::setPosition(real x, real y, real z)
 void Particle::setVelocity(real x, real y, real z)
 {
 	this->velocity = Vector3(x, y, z);
+}
+void Particle::setVelocity(Vector3 velocity)
+{
+	this->velocity = velocity;
 }
 void Particle::setAcceleration(real x, real y, real z)
 {

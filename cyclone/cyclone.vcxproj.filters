@@ -27,6 +27,9 @@
     <ClInclude Include="pfgen.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="pcontacts.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="particle.cpp">
@@ -36,6 +39,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="pfgen.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="pcontacts.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
