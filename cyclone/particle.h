@@ -17,6 +17,7 @@ namespace cyclone
 		public :
 			Vector3 getPosition() const;
 			Vector3 getVelocity() const;
+			Vector3 getAcceleration() const;
 			real getMass() const;
 			real getInverseMass() const;
 

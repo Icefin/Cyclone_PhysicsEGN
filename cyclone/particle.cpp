@@ -12,6 +12,10 @@ Vector3 Particle::getVelocity() const
 {
 	return this->velocity;
 }
+Vector3 Particle::getAcceleration() const
+{
+	return this->acceleration;
+}
 real Particle::getMass() const
 {
 	return 1 / this->inverseMass;
